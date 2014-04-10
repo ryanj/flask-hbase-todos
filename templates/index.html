@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+<div id="main" class="container">
+    <h2>My List</h2>
+    <table class="table table-hover">
+      <tr>
+        <th>Title
+        <th>Text
+        <th>Date
+      </tr>
+      {%- for todo in todos %}
+      <tr class={{ "success" if todo.done }}>
+        <td style={{ "text-decoration:line-through" if todo.done }}>
+        <a href="/todos/{{ todo.id }}">{{ todo.title }}</a></td>
+        <td>{{ todo.text }}</td>
+        <td>{{ todo.pub_date.strftime("%A, %B %d") }}</td>
+      </tr>
+      {%- endfor %}
+    </table>
+    <p>
+      <a href="{{ url_for('new') }}" class="btn pull-right btn-large btn-primary">New Task</a>
+    </p>
+</div>
+{% endblock %}

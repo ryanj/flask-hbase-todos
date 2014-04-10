@@ -1,5 +1,5 @@
 <!doctype html>
-<title>TodoApp -- Store your Todo items</title>
+<title>TodoList -- Store your Todo items</title>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <meta charset="utf-8">
 <style>
@@ -21,11 +21,11 @@ body {
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="brand" href="/">TodoApp</a>
+				<a class="brand" href="/">TodoList</a>
 				<div class="nav-collapse collapse">
 					<ul class="nav">
-						<li class="active"><a href="/">Home</a></li>
-						<li><a href="/new">New Todo</a></li>
+						<li class="active"><a href="/">My List</a></li>
+						<li><a href="/new">New Task</a></li>
 					</ul>
 				</div>
 				<!--/.nav-collapse -->
@@ -49,11 +49,8 @@ body {
 	{% block body %}{% endblock %}
 	<hr>
 	<footer id="footer">
-				<p>&copy; Shekhar Gulati 2013</p>
-
-				<p>Made with love by <a href="https://twitter.com/shekhargulati/" target="_blank">Shekhar Gulati</a>. 
-				Contact him at <a href="mailto:shekhargulati84@gmail.com">shekhargulati84@gmail.com</a>.</p>
-				<p>Todo App built using Flask, SQLAlchemy, PostgreSQL , and Twitter Bootstrap</p>
-				<p><a href="https://www.openshift.com/" target="_blank"><img alt="Powered by OpenShift" src="https://www.openshift.com/sites/default/files/images/powered-transparent-black.png"></a></p>		
+				<div class='pull-left'><a href='https://github.com/ryanj/flask-hbase-todos'>This app was built using Python, Flask, Twitter Bootstrap, and HappyBase</a><br/>With Hadoop &amp; hbase services provided by <a href='http://hortonworks.com/'>HortonWorks</a></div>
+        <a style='float:right;' class='pull-right;' href="https://hortonworks.com/" target="_blank"><img alt="Powered by HortonWorks" src="http://hortonworks.com/wp-content/themes/hortonworks/images/layout/header/hortonworks-logo.png"></a>
+        <a class='pull-left' href="https://www.openshift.com/" target="_blank"><img alt="Powered by OpenShift" src="https://www.openshift.com/sites/default/files/images/powered-transparent-black.png"></a>
 	</footer>
 </div>
