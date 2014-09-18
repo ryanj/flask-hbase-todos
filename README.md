@@ -26,24 +26,27 @@ rhc setup
 
 Now that your development environment is ready, spin up a fresh copy of this app in a single command:
 ```bash
-$ rhc app create todo python-2.7 --from-code=https://github.com/ryanj/flask-hbase-todos HDP_URL=MY_REMOTE_HDP_HOST
+$ rhc app create todo python-2.7 --from-code=https://github.com/ryanj/flask-hbase-todos HBASE_HOST=MY_REMOTE_HBASE_HOST HBASE_PORT=9090
 ```
 
-If you already have a Hadoop cluster available, enter it's host URL or IP address as the value to your application's `HDP_URL` key.
+If you already have a Hadoop cluster available, enter it's host URL or IP address as the value to your application's `HBASE_HOST` key.
 
-For this application, we'll use the `HDP_URL` environment variable to help keep our source clean, and to help enhance the project's portability and reusablility.
+For this application, we'll use the `HBASE_HOST` environment variable to help keep our source clean, and to help enhance the project's portability and reusablility.
 
-If you choose to create your application using [OpenShift's web workflow](https://www.openshift.com/blogs/launching-applications-with-openshifts-web-based-workflow), or if you would like to make changes to your app's current "HDP_URL" setting, run the following (assuming "todo" is your app name):
+If you choose to create your application using [OpenShift's web workflow](https://www.openshift.com/blogs/launching-applications-with-openshifts-web-based-workflow), or if you would like to make changes to your app's current "HBASE_HOST" setting, run the following (assuming "todo" is your app name):
 ```bash
-$ rhc env set HDP_URL=MY_REMOTE_HDP_HOST -a todo
+$ rhc env set HBASE_HOST=MY_REMOTE_HBASE_HOST -a todo
+$ rhc env set HBASE_PORT=MY_REMOTE_HBASE_PORT -a todo
 ```
+
+OpenShift operators can also make `hbase` service connection strings available to developers as a cartridge, by installing a modified copy of this [hbase-external cart](https://github.com/ryanj/openshift-cartridge-hbase-external) into their [OpenShift Enterprise](https://www.openshift.com/products/enterprise) or [Origin](https://www.openshift.com/products/origin) environments.
 
 ### AMIs from HortonWorks
 Hosting your own Hadoop in the cloud is a breeze with the `HDP2_REDSHIFT_DEMO_AMI` image, available in Amazon's US East Region.
 
-Just click 'Launch', then open up port `60080` for outside access, allowing your OpenShift environment to connect directly to your new datastore.
+Just click 'Launch', then open up port `9090` for outside access, allowing your OpenShift environment to connect directly to your new datastore.
 
-Then, make sure to pass your `HDP_URL` to your application through the system environment, as documented proviously.
+Then, make sure to pass your `HBASE_HOST`, and `HBASE_PORT` to your application through the system environment, as documented in the previous section.
 
 ### HortonWorks Sandbox
 The [HortonWorks Sandbox](http://hortonworks.com/products/hortonworks-sandbox/) is an excellent choice for local development scenarios.
@@ -54,7 +57,7 @@ Support for Hbase can be enabled in just a click or two.
 
 ### Local Developmet
 
-Flask, happybase, and a [HoronWorks Sandbox]() are all required for setting up your local development environment.
+Flask, happybase, and a [HoronWorks Sandbox](http://hortonworks.com/products/hortonworks-sandbox/) are all required for setting up your local development environment.
 
 When you create an application using the `rhc` command-line tool, a local copy of your project source code will automatically be created for you to work with.
 
@@ -66,7 +69,7 @@ rhc git-clone todo
 
 Then, run the following to start your local server:
 ```bash
-python todoapp.py
+python app.py
 ```
 
 ***Enjoy!***

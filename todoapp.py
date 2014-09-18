@@ -11,8 +11,8 @@ app.config.from_pyfile('todoapp.cfg')
 time_format = "%Y-%m-%d %H:%M:%S"
 time_format_w_ms = "%Y-%m-%d %H:%M:%S.%f"
 
-connection = happybase.Connection(app.config['HDP_URL'])
-column_and_key = app.config['APP_NAME']+":"+app.config['APP_NAME']
+connection = happybase.Connection(app.config['HBASE_HOST'], app.config['HBASE_PORT'])
+column_and_key = app.config['HBASE_TABLE']+":"+app.config['HBASE_TABLE']
 
 @app.route('/')
 def index():
@@ -45,7 +45,7 @@ def show_or_update(id):
     return redirect(url_for('index'))
 
 def getTasks():
-    hbase = connection.table(app.config['HDP_TABLE'])
+    hbase = connection.table(app.config['HBASE_TABLE'])
     print "get all"
     results = []
     for key, data in hbase.scan():
@@ -56,7 +56,7 @@ def getTasks():
 def getTask(id):
     print "get "+str(id)
     #timestmp = _unix_to_datetime(id)
-    hbase = connection.table(app.config['HDP_TABLE'])
+    hbase = connection.table(app.config['HBASE_TABLE'])
     #return _decode(hbase.row(timestmp))
     return _decode(hbase.row(str(id)))
     
@@ -64,11 +64,11 @@ def saveTask(task):
     item = _encode(task)
     pub_date = datetime.strptime(task['pub_date'], time_format)
     id = str(_datetime_to_unix(pub_date))
-    hbase = connection.table(app.config['HDP_TABLE'])
+    hbase = connection.table(app.config['HBASE_TABLE'])
     hbase.put(id, {column_and_key: str(item)})
 
 def delTask(id):
-    hbase = connection.table(app.config['HDP_TABLE'])
+    hbase = connection.table(app.config['HBASE_TABLE'])
     table.delete(str(id))
     print "deleting: "+str(id)
 
@@ -78,15 +78,15 @@ def resetTable():
 
 def dropTable():
     print "dropping our table..."
-    if( app.config['HDP_TABLE'] in connection.tables()):
-        connection.delete_table( app.config['HDP_TABLE'], True)
+    if( app.config['HBASE_TABLE'] in connection.tables()):
+        connection.delete_table( app.config['HBASE_TABLE'], True)
 
 def createTable():
-    a = {app.config['HDP_TABLE']: dict()}
+    a = {app.config['HBASE_TABLE']: dict()}
     print a
-    if( app.config['HDP_TABLE'] not in connection.tables()):
+    if( app.config['HBASE_TABLE'] not in connection.tables()):
         print "creating a table schema..."
-        connection.create_table( app.config['HDP_TABLE'], a)
+        connection.create_table( app.config['HBASE_TABLE'], a)
 
 def _encode(item):
     pub_date = datetime.strptime(item['pub_date'], time_format_w_ms)
@@ -110,6 +110,6 @@ def _datetime_to_unix(date):
 
 if __name__ == '__main__':
     print connection.tables()
-    createTable()
-    #resetTable()
+    #createTable()
+    resetTable()
     app.run()
